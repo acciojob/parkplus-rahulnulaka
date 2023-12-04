@@ -23,20 +23,16 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
-        Optional<User> optionalUser=userRepository3.findById(userId);
-        User user=null;
-        if(optionalUser.isPresent()){
-            user=optionalUser.get();
+        User user;
+        ParkingLot parkingLot;
+        try {
+            user = userRepository3.findById(userId).get();
+            parkingLot = parkingLotRepository3.findById(parkingLotId).get();
+        }catch (Exception exception) {
+            throw new Exception("Cannot make reservation");
         }
-        else throw new Exception("Cannot make reservation");
-        Optional<ParkingLot> optionalParkingLot=parkingLotRepository3.findById(parkingLotId);
-        ParkingLot parkingLot=null;
-        if(optionalParkingLot.isPresent()){
-            parkingLot=optionalParkingLot.get();
-        }
-        else throw new Exception("Cannot make reservation");
         Spot reservedSpot=null;
-        int minimizedCost=Integer.MAX_VALUE;
+        int minimisedCost=Integer.MAX_VALUE;
         for(Spot spot: parkingLot.getSpotList()){
             int wheels=0;
             if(spot.getSpotType()==SpotType.TWO_WHEELER){
@@ -48,9 +44,9 @@ public class ReservationServiceImpl implements ReservationService {
             if(spot.getSpotType()==SpotType.OTHERS){
                 wheels=24;
             }
-            if(!spot.getOccupied()&&numberOfWheels<=wheels&&spot.getPricePerHour()*timeInHours<minimizedCost){
-                minimizedCost=spot.getPricePerHour()*timeInHours;
-                reservedSpot=spot;
+            if(!spot.getOccupied() && numberOfWheels <= wheels && spot.getPricePerHour() * timeInHours < minimisedCost) {
+                minimisedCost = spot.getPricePerHour() * timeInHours;
+                reservedSpot = spot;
             }
         }
         if(reservedSpot==null){
