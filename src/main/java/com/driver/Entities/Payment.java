@@ -11,6 +11,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private boolean paymentCompleted;
+    @Enumerated(value=EnumType.STRING)
     private PaymentMode paymentMode;
 
     public Payment() {

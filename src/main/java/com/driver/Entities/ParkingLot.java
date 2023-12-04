@@ -8,7 +8,7 @@ import java.util.List;
 @Table
 public class ParkingLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String address;
@@ -16,10 +16,11 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
-    public ParkingLot(Integer id, String name, String address) {
+    public ParkingLot(Integer id, String name, String address, List<Spot> spotList) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.spotList = spotList;
     }
 
     public Integer getId() {
