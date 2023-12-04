@@ -1,33 +1,34 @@
-package com.driver.Entities;
-
-import com.driver.model.PaymentMode;
+package com.driver.model;
 
 import javax.persistence.*;
 
 @Entity
-@Table
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private boolean paymentCompleted;
-    @Enumerated(value=EnumType.STRING)
-    private PaymentMode paymentMode;
+    @Enumerated(EnumType.STRING)
+    PaymentMode paymentMode;
+    @OneToOne
+    @JoinColumn
+    Reservation reservation;
 
     public Payment() {
     }
 
-    public Payment(Integer id, boolean paymentCompleted, PaymentMode paymentMode) {
+    public Payment(int id, boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
         this.id = id;
         this.paymentCompleted = paymentCompleted;
         this.paymentMode = paymentMode;
+        this.reservation = reservation;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -54,8 +55,4 @@ public class Payment {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-
-    @OneToOne
-    @JoinColumn
-    private Reservation reservation;
 }

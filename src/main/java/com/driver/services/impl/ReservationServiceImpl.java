@@ -1,9 +1,5 @@
 package com.driver.services.impl;
 
-import com.driver.Entities.ParkingLot;
-import com.driver.Entities.Reservation;
-import com.driver.Entities.Spot;
-import com.driver.Entities.User;
 import com.driver.model.*;
 import com.driver.repository.ParkingLotRepository;
 import com.driver.repository.ReservationRepository;
@@ -13,7 +9,6 @@ import com.driver.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
             if(spot.getSpotType()==SpotType.OTHERS){
                 wheels=24;
             }
-            if(!spot.isOccupied()&&numberOfWheels<=wheels&&spot.getPricePerHour()*timeInHours<minimizedCost){
+            if(!spot.getOccupied()&&numberOfWheels<=wheels&&spot.getPricePerHour()*timeInHours<minimizedCost){
                 minimizedCost=spot.getPricePerHour()*timeInHours;
                 reservedSpot=spot;
             }

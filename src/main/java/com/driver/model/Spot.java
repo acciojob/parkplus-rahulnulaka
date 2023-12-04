@@ -1,38 +1,41 @@
-package com.driver.Entities;
-
-import com.driver.model.SpotType;
-import org.hibernate.id.IntegralDataTypeHolder;
+package com.driver.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
 public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Enumerated(value = EnumType.STRING)
+    private int id;
+    @Enumerated(EnumType.STRING)
     private SpotType spotType;
-    private Integer pricePerHour;
+    private int pricePerHour;
     private boolean occupied;
+    @ManyToOne
+    @JoinColumn
+    ParkingLot parkingLot;
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
+    List<Reservation> reservationList = new ArrayList<>();
 
     public Spot() {
     }
 
-    public Spot(Integer id, SpotType spotType, Integer pricePerHour, boolean occupied) {
+    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
         this.id = id;
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
         this.occupied = occupied;
+        this.parkingLot = parkingLot;
+        this.reservationList = reservationList;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -44,28 +47,20 @@ public class Spot {
         this.spotType = spotType;
     }
 
-    public Integer getPricePerHour() {
+    public int getPricePerHour() {
         return pricePerHour;
     }
 
-    public void setPricePerHour(Integer pricePerHour) {
+    public void setPricePerHour(int pricePerHour) {
         this.pricePerHour = pricePerHour;
     }
 
-    public boolean isOccupied() {
+    public boolean getOccupied() {
         return occupied;
     }
 
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
-    }
-
-    public List<Reservation> getReservationList() {
-        return reservationList;
-    }
-
-    public void setReservationList(List<Reservation> reservationList) {
-        this.reservationList = reservationList;
     }
 
     public ParkingLot getParkingLot() {
@@ -76,10 +71,11 @@ public class Spot {
         this.parkingLot = parkingLot;
     }
 
-    @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
 
-    @ManyToOne
-    @JoinColumn
-    private ParkingLot parkingLot;
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
 }

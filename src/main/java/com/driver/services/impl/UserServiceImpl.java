@@ -1,12 +1,11 @@
 package com.driver.services.impl;
 
-import com.driver.Entities.User;
+import com.driver.model.User;
 import com.driver.repository.UserRepository;
 import com.driver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service

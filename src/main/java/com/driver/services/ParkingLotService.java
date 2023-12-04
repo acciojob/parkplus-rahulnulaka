@@ -1,7 +1,7 @@
 package com.driver.services;
 
-import com.driver.Entities.ParkingLot;
-import com.driver.Entities.Spot;
+import com.driver.model.ParkingLot;
+import com.driver.model.Spot;
 
 public interface ParkingLotService {
     
